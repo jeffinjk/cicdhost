@@ -8,7 +8,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy to EC2 on master branch push
+    name: Deploy to EC2 on main branch push
     runs-on: ubuntu-latest
 
     steps:
@@ -30,9 +30,11 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            set -e  # Exit immediately if a command exits with a non-zero status
             sudo apt-get -y update
-            sudo apt-get install -y apache2
-            sudo systemctl start apache2
-            sudo systemctl enable apache2
-            cd home
-            sudo mv * /var/www/html
+            sudo apt-get install -y apache2 || { echo 'Apache installation failed'; exit 1; }
+            sudo systemctl start apache2 || { echo 'Failed to start Apache'; exit 1; }
+            sudo systemctl enable apache2 || { echo 'Failed to enable Apache'; exit 1; }
+            cd /home/${{ secrets.USERNAME }}  # Ensure this path is correct
+            sudo rm -rf /var/www/html/*  # Clear existing files
+            sudo mv * /var/www/html/
