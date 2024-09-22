@@ -100,10 +100,4 @@ jobs:
 
 This project is licensed under the MIT License. See the LICENSE file for more details.
 
-```
 
-### Instructions
-- Replace `yourusername` and `your-repo-name` with your actual GitHub username and repository name.
-- Adjust any specific details to fit your project and requirements.
-
-Feel free to copy and paste this code into your `README.md` file! Let me know if you need any more assistance!
